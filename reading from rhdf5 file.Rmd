@@ -1,0 +1,43 @@
+---
+title: "reading from HDF5"
+author: "Yuling"
+date: "3/24/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r R HDF5 package, results='hide', warning=FALSE}
+#install rhdf5 package from Bioconductor
+install.packages("BiocManager")
+library(BiocManager)
+install("rhdf5")
+```
+```{r create a hdr5 file, results='hide', warning=FALSE}
+library(rhdf5)
+created <- h5createFile("example")
+created
+
+#create groups
+
+created <- h5createGroup("example", "foo")
+created <- h5createGroup("example", "baa")
+created <- h5createGroup("example", "foo/foobaa")
+h5ls("example")
+
+#write a data set
+A <- matrix(1:10, nr = 5, nc = 2)
+h5write(A, "example", "foo/A")
+B <- array(seq(0.1, 2.0, by = 0.1), dim = c(5,2,2))
+attr(B, "scale") <- "liter"
+h5write(B, "example", "foo/foobaa/B")
+h5ls("example")
+
+df <- data.frame(1L:5L,seq(0.1, length.out=5),
+                 c("ab", "cde", "fghi", "a", "s"), stringsAsFactors = FALSE)
+h5write(df, "example", "df")
+h5ls("example")
+```
+
