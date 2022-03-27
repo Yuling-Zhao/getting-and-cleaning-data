@@ -1,0 +1,51 @@
+---
+title: "Getting data off webpages"
+output: html_document
+date: '2022-03-26'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r getting data off webpages}
+con <- url("https://scholar.google.com/citations?hl=en&user=HI-I6C0AAAAJ")
+htmlCode <- readLines(con)
+close(con)
+htmlCode
+```
+
+```{r parsing with XML, results='hide', warning=FALSE}
+library(RCurl)
+library(XML)
+url <- "https://scholar.google.com/citations?user=HI-I6C0AAAAJ&hl=en"
+geturl <- getURL(url)
+html <- htmlTreeParse(geturl, useInternalNodes = T)
+#the erro of using htmlTreeParse alone is that, the function doesn't accept https, however, we have no http address from this website; if error happens with getURL function, then set the additional condition with 'url <- getURL(fileURL, ssl.verifypeer = FALSE)'
+xpathSApply(html, "//title", xmlValue)
+xpathSApply(html, "//td[@id = 'col-citedby']", xmlValue)
+
+#ANOTHER WAY OF GETTING DATA FROM WEBSITES
+library(httr)
+html2 <- GET(url)
+content2 <- content(html2, as = "text")
+parsedHtml <- htmlParse(content2, asText = TRUE)
+xpathSApply(parsedHtml, "//td[@id = 'col-citedby']", xmlValue)
+```
+```{r accessing to websites with passwords}
+pg2 <- GET("http://httpbin.org/basic-auth/user/passwd", 
+           authenticate("user", "passwd"))
+pg2
+names(pg2)
+```
+```{r using handles}
+google <- handle("http://google.com")
+pg1 <- GET(handle = google, path = "/")
+pg3 <- GET(handle = google, path = "search")
+#you don't have to keep authenticating over and over again, as you access that website
+
+```
+
+#Notes and further resources
+##R bloggers: search "Web scraping"
+##examples from httr help file
