@@ -1,0 +1,39 @@
+---
+title: "subsetting and sorting"
+author: "Yuling"
+date: "4/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r logicals and ors}
+X <- data.frame("var1" = sample(1:5), "var2" = sample(6:10), "var3" = sample(11:15))
+X[(X$var1 <= 3 & X$var3 >11),] #logic: AND
+X[(X$var1 <= 3 | X$var3 > 15),] #logic: or
+
+#dealing with missing values
+X[which(X$var2 > 8),]
+
+#Sorting
+sort(X$var1) #increasing order
+sort(X$var1, decreasing = T) #decreasing order
+sort(X$var1, na.last = T) #dealing with data with Na, and put NA at the end
+X[order(X$var1),] #sort the rows based on column
+X[order(X$var1, X$var3),] #first variable first and second variable within the sort
+
+#ordering with plyr
+library(plyr)
+arrange(X, var1)
+arrange(X, desc(var1))
+
+#add rows and columns
+X$var4 <- rnorm(5)
+Y <- cbind(X, rnorm(5)) #column bind
+Y <- rbind(X, rnorm(5))
+Y
+X
+```
+
