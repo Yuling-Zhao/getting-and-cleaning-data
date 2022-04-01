@@ -20,9 +20,15 @@ library(RMySQL)
 
 ```
 
+<<<<<<< HEAD
 ```{r connecting and listing database,  results='hide', warning=FALSE}
 ucscDb <- dbConnect(MySQL(), user = "genome",
                     host = "genome-mysql.cse.ucsc.edu")
+=======
+```{r connecting and listing database}
+ucscDb <- dbConnect(MariaDB(), user = "genome",
+                    host = "genome-euro-mysql.soe.ucsc.edu")
+>>>>>>> 12eeaa884bda8757a01264c56d224e213e084a13
 result <- dbGetQuery(ucscDb, "show databases");dbDisconnect(ucscDb);
 ```
 ```{r connecting to hg19 and listing tables,  results='hide', warning=FALSE}

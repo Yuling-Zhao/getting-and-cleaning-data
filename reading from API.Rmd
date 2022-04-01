@@ -1,0 +1,19 @@
+---
+title: "reading data from API"
+output: html_document
+date: '2022-03-27'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r creating an application}
+#website: https://dev.twitter.com/apps
+library(httr)
+myapp <- oauth_app("twitter", 
+                   key = "oGh1g4u83T1icbzRewP2vRnkW", secret = "Yhk3lPUvY9i3aU3NaOyxfUvxwuuXbHY0ujFKw2B7pDUOdQPMnE")
+sig <- sign_oauth1.0(myapp, token = "1508211979076440071-5CXr7ZjXClaiJ2P18JdBR68eK28GwG", token_secret = "V5xbfD6GmnGOcMKP2T8OXSs8BdGkIZmejl77F34PUQUJp")
+
+```
+
