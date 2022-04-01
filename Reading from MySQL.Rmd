@@ -3,8 +3,8 @@ title: "reading from mySQL"
 author: "Yuling"
 date: "3/23/2022"
 output:
-  word_document: default
   html_document: default
+  word_document: default
   pdf_document: default
 ---
 
@@ -12,20 +12,20 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r Install RMySQL}
-install.packages("RMySQL")
-install.packages("DBI")
+```{r Install RMySQL, results='hide', warning=FALSE}
+install.packages("RMySQL", repos = "http://cran.us.r-project.org")
+install.packages("DBI", repos = "http://cran.us.r-project.org")
 library(DBI)
 library(RMySQL)
 
 ```
 
-```{r connecting and listing database}
+```{r connecting and listing database,  results='hide', warning=FALSE}
 ucscDb <- dbConnect(MySQL(), user = "genome",
                     host = "genome-mysql.cse.ucsc.edu")
 result <- dbGetQuery(ucscDb, "show databases");dbDisconnect(ucscDb);
 ```
-```{r connecting to hg19 and listing tables}
+```{r connecting to hg19 and listing tables,  results='hide', warning=FALSE}
 hg19 <- dbConnect(MySQL(), user = "genome", db = "hg19",
                   host = "genome-mysql.cse.ucsc.edu")
 allTables <- dbListTables(hg19)
@@ -33,16 +33,16 @@ length(allTables)
 
 allTables[1:5]
 ```
-```{r get dimensions of a specific table}
+```{r get dimensions of a specific table,  results='hide', warning=FALSE}
 dbListFields(hg19, "affyU133Plus2")
 dbGetQuery(hg19, "select count(*) from affyU133Plus2")
 ```
-```{r read from the table}
+```{r read from the table,  results='hide', warning=FALSE}
 affyData <- dbReadTable(hg19, "affyU133Plus2")
 head(affyData)
 ```
 
-```{r select a specific subset}
+```{r select a specific subset, results='hide', warning=FALSE}
 query <- dbSendQuery(hg19, "select * from affyU133Plus2 where misMatches between 1 and 3")
 affyMis <- fetch(query); quantile(affyMis$misMatches)
 affyMisSmall <- fetch(query, n = 10); dbClearResult(query)
@@ -52,7 +52,10 @@ dim(affyMisSmall)
 dbDisconnect(hg19)
 ```
 
+
+```{r}
 #RMySQL vignette: http://cran.r-project.org/web/packages/RMySQL/RMySQL.pdf
 #List of commands: http://www.pantz.org/software/mysql/mysqlcommands.html
 #blog post with summary of some other commands: http://www.r-bloggers.com/mysql-and-r/
+```
 
