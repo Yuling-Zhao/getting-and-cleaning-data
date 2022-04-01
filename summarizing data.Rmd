@@ -1,0 +1,57 @@
+---
+title: "summarizing data"
+author: "Yuling"
+date: "4/1/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r look at a bit of the data}
+head(data, n = 3)
+tail(data, n = 3)
+summary(data)
+str(data)
+quantile(data$columnname, na.rm = T)
+quantile(data$columnname, probs = c(0.5, 0.75, 0.9)) #look ar defined quartiles
+table(data$columnname, useNA = "ifany") #show the counts of values in defined column in a table; "ifany" passes the instruction to create a separate catagory for NA, if there is any NA;
+table(data$column1, data$column2) #two different variables observed in the table
+sum(is.na(dats$columnname)) #if there is NA, it will return "1", otherwise it will return "0"
+any(is.na(data$columnname)) #return TURE or FALSE
+all(data$columnname > 0) #return TRUE or FALSE
+
+#row and column sums
+colSums(is.na(data))
+all(colSums(is.na(data)) = 0) #return TRUE or FALSE
+
+#values with specific characteristics
+table(data$columnname %in% c("21212", "21213")) #check if in this column there are values belonging to the vector, either value in the vector will be counted
+
+#values with specific characteristics
+data[data$columnname %in% c("21212", "21213"), ]  #subtract rows meet up the equal equal function, ogical variable
+
+#cross tabs
+data(UCBAdmissions)
+DF <- as.data.frame(UCBAdmissions)
+summary(DF)
+xt <- xtabs(Freq ~ Gender + Admit, data = DF) #break down the frequency of values in "Gender" by the values in "Admit"
+xt
+
+#Flat tables
+data("warpbreaks")
+warpbreaks$replicate <- rep(1:9, len = 54) #add another column to make the data more complicate 
+xt <- xtabs(breaks ~., data = warpbreaks) #breaks all columns, create multiple two dimentional tables, which is too long to be analyzed
+xt
+
+ftable(xt) #summarize the data in a more compact form
+
+#size of a data set
+fakeData <- rnorm(1e5)
+object.size((fakeData)) #how many bytes in the dataset
+print(object.size(fakeData), units = "Mb") #specify the unit preferred
+
+
+```
+
