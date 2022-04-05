@@ -1,0 +1,50 @@
+---
+title: "Reshaping data"
+author: "Yuling"
+date: "4/4/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+#Each variable forms a column
+#Each observation forms a row
+#Each table/file stores data about one kind of observation
+
+library(reshape2)
+head(mtcars)
+mtcars <- mutate(mtcars, carname = rownames(mtcars))
+carMelt <- melt(mtcars, id = c("carname", "gear", "cyl"), measure.vars = c("mpg", "hp"))
+head(carMelt, n = 3)
+
+#Casting data frames
+cylData <- dcast(carMelt, cyl~variable)
+cylData
+
+cylData <- dcast(carMelt, cyl~variable, mean)
+cylData
+
+
+#Averaging values
+head(InsectSprays)
+tapply(InsectSprays$count, InsectSprays$spray, sum)
+#another way: split -lapply/sapply
+#another way: plyr package
+library(plyr)
+ddply(InsectSprays, .(spray), summarize, sum = sum(count))
+
+#creating a new variable
+spraySums <- ddply(InsectSprays,.(spray), summarize, sum = ave(count, FUN = sum))
+dim(spraySums)
+head(spraySums)
+```
+
