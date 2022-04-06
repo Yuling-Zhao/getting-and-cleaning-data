@@ -1,0 +1,45 @@
+---
+title: "Editing text variables"
+author: "Yuling"
+date: "4/6/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+tolower(names(camerData)) #change all column names to lowercases
+toupper(names(camerData))
+splitNames <- strsplit(names(cameraData), "\\.") #split names like "Location.1" to be "Location" and "1"
+firstElement <- function(x) {x[1]} #anonymous function
+sapply(splitNames, firstElement) #take out the variable names with an anonymous function of the first element after strsplit
+
+#alternative
+sub("-", "", names(reviews),) #names as "solution_id", we want to remove the "_" and replace it with nothing, so the name will become "solutionid"
+gsub("_", "", testName) #remove all underscores in the name
+
+mylist <- list(letters = c("A", "b", "c"), numers = 1:3, matrix(1:25, ncol = 5))
+head(mylist)
+#subset
+mylist[1]
+mylist["letters"]
+mylist[[1]]
+
+
+#find values - grep(), grepl()
+grep("Alameda", cameraData$intersection) #find elements containing "Alameda" in the variable of "intersection", returns the element site; if it doesn't appear in data, it will return integer(0)
+grep("Alameda", cameraData$intersection, value = TRUE) #find elements containing "Alameda and return the element
+table(grepl("Alemada", cameraData$intersection)) #return a table with FALSE and TRUE
+cameraData2 <- cameraData[!grepl("Alemeda", cameraData$intersection),] #subset the data without "Alemeda" from the dataframe
+
+
+library(stringr)
+nchar("Jeffrey Leek") #return the number of characters in the string
+substr("Jeffrey Leek", 1, 7) #subtract characters from the string
+paste("Jeffrey", "Leek") #paste two strings together: Jeffrey Leek
+paste0("Jeffrey", "Leek") #JeffreyLeek
+str_trim("Jeff       ") #"Jeff
+```
+
