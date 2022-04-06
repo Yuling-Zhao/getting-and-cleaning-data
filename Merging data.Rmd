@@ -1,0 +1,25 @@
+---
+title: "Merging data"
+author: "Yuling"
+date: "4/5/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#two data.frame here: reviews and solutions
+mergedData <- merge(reviews, solutions, by.x = "solution_id", by.y = "id", all = TRUE) #all = TRUE means if there is unmatched value, rows from both data.frame are kept, but one with a NA;
+
+#Default - merge all common column names
+intersect(names(solutions), names(reviews)) #find common column names
+mergedData2 <- merge(reviews, solutions, all = TRUE) #generate a new dataframe with rows from both datasets, organized one by one
+
+#Using join in the plyr package
+df1 <- data.frame(id = sample(1:10), x = rnorm(10))
+df2 <- data.frame(id = sample(1:10), y = rnorm(10))
+arrange(join(df1, df2), id)
+```
+
