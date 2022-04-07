@@ -1,0 +1,26 @@
+---
+title: "regular expressions"
+author: "Yuling"
+date: "4/6/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#metacharacter
+^i think # represent the start of a line
+mornings$ #represents the end of a line
+
+
+#we can list a set of characters we will accept at a given point in the match
+[Bb][Uu][Ss] #match both lowercase and uppercase 
+
+#combining
+^[Ii] am
+^[0-9][a-zA-Z]
+[^?.]$ #match lines without ? or . in the end
+```
+
