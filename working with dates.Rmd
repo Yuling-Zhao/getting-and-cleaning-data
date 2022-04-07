@@ -1,0 +1,47 @@
+---
+title: "Working with Dates"
+author: "Yuling"
+date: "4/7/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+d1 <- date()
+d1
+class(d1)
+
+d2 <- Sys.Date()
+d2
+class(d2)
+
+
+#formatring dates
+format(d2, "%a %b %d")
+# %d = day as number (0-31); %a = abbreviated weekday; %A = unabbreviated weekday; %m = month (00-12); %b = abbreviated month; %B = unabbreviated month; %y = 2 digit year; %Y = four digit year
+
+
+#Creating dates
+x = c("1jan1960", "2jan1960"); z = as.Date(x, "%d%b%Y")
+z
+as.numeric(z[1] - z[2])
+ #Converting to Julian
+weekdays(d2)
+months(d2)
+julian(d2) #number of days occuring since the original day
+
+
+#Lubridate
+library(lubridate)
+ymd("20140108") #convert a number to date
+mdy("08/04/2013") #the output is always the same format, but the different function is to tell how to define the input
+ymd_hms("2011-08-03 10:15:03")
+ymd_hms("2011-08-03 10:15:03", tz = "Pacific/Auckland")
+x = dmy(c("1jan2013", "2jan2013", "31mar2013"))
+wday(x[1]) #return the weekday of the date, a number
+wday(x[1], label = TRUE) #return the weekday name of a week
+```
+
